@@ -385,6 +385,19 @@ class Dataset(object):
         return mask, class_ids
 
 
+class LSPDataset(Dataset):
+    def __init__(self, path=""):
+        super(self)
+        self._path = path
+
+
+    def load_lsp(self):
+        pass
+
+    def load_mask(self, image_id):
+        pass
+
+
 def resize_image(image, min_dim=None, max_dim=None, min_scale=None, mode="square"):
     """Resizes an image keeping the aspect ratio unchanged.
 
