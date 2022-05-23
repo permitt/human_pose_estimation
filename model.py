@@ -27,6 +27,9 @@ from mrcnn import utils
 
 # Requires TensorFlow 1.3+ and Keras 2.0.8+.
 from distutils.version import LooseVersion
+
+from utils import Dataset
+
 assert LooseVersion(tf.__version__) >= LooseVersion("1.3")
 assert LooseVersion(keras.__version__) >= LooseVersion('2.0.8')
 
@@ -48,7 +51,7 @@ def log(text, array=None):
             text += ("min: {:10}  max: {:10}".format("",""))
         text += "  {}".format(array.dtype)
     print(text)
-
+w
 
 class BatchNorm(KL.BatchNormalization):
     """Extends the Keras BatchNormalization class to allow a central place
@@ -2273,8 +2276,8 @@ class MaskRCNN():
         self.checkpoint_path = self.checkpoint_path.replace(
             "*epoch*", "{epoch:04d}")
 
-    def train(self, train_dataset, val_dataset, learning_rate, epochs, layers,
-              augmentation=None, custom_callbacks=None, no_augmentation_sources=None):
+    def train(self, train_dataset: Dataset, val_dataset: Dataset, learning_rate: float, epochs, layers: str,
+              augmentation=None, custom_callbacks=None, no_augmentation_sources=None) -> None:
         """Train the model.
         train_dataset, val_dataset: Training and validation Dataset objects.
         learning_rate: The learning rate to train with
@@ -2320,7 +2323,7 @@ class MaskRCNN():
             # All layers
             "all": ".*",
         }
-        if layers in layer_regex.keys():
+        if layers in layer_regex:
             layers = layer_regex[layers]
 
         # Data generators
