@@ -852,8 +852,8 @@ def download_trained_weights(coco_model_path, verbose=1):
 
 def norm_boxes(boxes, shape):
     """Converts boxes from pixel coordinates to normalized coordinates.
-    boxes: [N, (y1, x1, y2, x2)] in pixel coordinates
-    shape: [..., (height, width)] in pixels
+    boxes: [N, (y1, x1, y142, x2)] in pixel coordinates
+    shape: [..., (height, width)] in pixels4
 
     Note: In pixel coordinates (y2, x2) is outside the box. But in normalized
     coordinates it's inside the box.

@@ -56,7 +56,7 @@ class Config(object):
 
     # Only useful if you supply a callable to BACKBONE. Should compute
     # the shape of each layer of the FPN Pyramid.
-    # See model.compute_backbone_shapes
+    # See model.compute_backbone_sh apes
     COMPUTE_BACKBONE_SHAPE = None
 
     # The strides of each layer of the FPN Pyramid. These values
@@ -234,3 +234,14 @@ class Config(object):
             if not a.startswith("__") and not callable(getattr(self, a)):
                 print("{:30} {}".format(a, getattr(self, a)))
         print("\n")
+
+
+class CocoConfig(Config):
+    def __init__(self):
+        super()
+        self.NAME = "COCO_POSE_ESTIMATION_GCP"
+        self.GPU_COUNT = 2
+        self.NUM_CLASSES = 999999
+
+
+
