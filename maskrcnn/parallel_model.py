@@ -21,15 +21,15 @@ import keras.models as KM
 
 class ParallelModel(KM.Model):
     """Subclasses the standard Keras Model and adds multi-GPU support.
-    It works by creating a copy of the model on each GPU. Then it slices
-    the inputs and sends a slice to each copy of the model, and then
+    It works by creating a copy of the maskrcnn on each GPU. Then it slices
+    the inputs and sends a slice to each copy of the maskrcnn, and then
     merges the outputs together and applies the loss on the combined
     outputs.
     """
 
     def __init__(self, keras_model, gpu_count):
         """Class constructor.
-        keras_model: The Keras model to parallelize
+        keras_model: The Keras maskrcnn to parallelize
         gpu_count: Number of GPUs. Must be > 1
         """
         self.inner_model = keras_model
@@ -39,7 +39,7 @@ class ParallelModel(KM.Model):
                                             outputs=merged_outputs)
 
     def __getattribute__(self, attrname):
-        """Redirect loading and saving methods to the inner model. That's where
+        """Redirect loading and saving methods to the inner maskrcnn. That's where
         the weights are stored."""
         if 'load' in attrname or 'save' in attrname:
             return getattr(self.inner_model, attrname)
@@ -52,8 +52,8 @@ class ParallelModel(KM.Model):
         self.inner_model.summary(*args, **kwargs)
 
     def make_parallel(self):
-        """Creates a new wrapper model that consists of multiple replicas of
-        the original model placed on different GPUs.
+        """Creates a new wrapper maskrcnn that consists of multiple replicas of
+        the original maskrcnn placed on different GPUs.
         """
         # Slice inputs. Slice inputs on the CPU to avoid sending a copy
         # of the full inputs to all GPUs. Saves on bandwidth and memory.
@@ -66,7 +66,7 @@ class ParallelModel(KM.Model):
         for i in range(len(self.inner_model.outputs)):
             outputs_all.append([])
 
-        # Run the model call() on each GPU to place the ops there
+        # Run the maskrcnn call() on each GPU to place the ops there
         for i in range(self.gpu_count):
             with tf.device('/gpu:%d' % i):
                 with tf.name_scope('tower_%d' % i):
@@ -77,7 +77,7 @@ class ParallelModel(KM.Model):
                         KL.Lambda(lambda s: input_slices[name][i],
                                   output_shape=lambda s: (None,) + s[1:])(tensor)
                         for name, tensor in zipped_inputs]
-                    # Create the model replica and get the outputs
+                    # Create the maskrcnn replica and get the outputs
                     outputs = self.inner_model(inputs)
                     if not isinstance(outputs, list):
                         outputs = [outputs]
@@ -105,7 +105,7 @@ class ParallelModel(KM.Model):
 
 
 if __name__ == "__main__":
-    # Testing code below. It creates a simple model to train on MNIST and
+    # Testing code below. It creates a simple maskrcnn to train on MNIST and
     # tries to run it on 2 GPUs. It saves the graph so it can be viewed
     # in TensorBoard. Run it as:
     #
@@ -120,9 +120,9 @@ if __name__ == "__main__":
     GPU_COUNT = 2
 
     # Root directory of the project
-    ROOT_DIR = os.path.abspath("../")
+    ROOT_DIR = os.path.abspath("../../")
 
-    # Directory to save logs and trained model
+    # Directory to save logs and trained maskrcnn
     MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
     def build_model(x_train, num_classes):
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     print('x_train shape:', x_train.shape)
     print('x_test shape:', x_test.shape)
 
-    # Build data generator and model
+    # Build data generator and maskrcnn
     datagen = ImageDataGenerator()
     model = build_model(x_train, 10)
 

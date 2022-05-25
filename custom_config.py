@@ -1,4 +1,4 @@
-from config import Config
+from maskrcnn.config import Config
 
 
 class CocoConfig(Config):

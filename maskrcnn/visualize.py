@@ -21,7 +21,7 @@ from matplotlib.patches import Polygon
 import IPython.display
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../")
+ROOT_DIR = os.path.abspath("../../")
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
@@ -473,7 +473,7 @@ def display_table(table):
 
 
 def display_weight_stats(model):
-    """Scans all the weights in the model and returns a list of tuples
+    """Scans all the weights in the maskrcnn and returns a list of tuples
     that contain stats about each weight.
     """
     layers = model.get_trainable_layers()
