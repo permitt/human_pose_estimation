@@ -236,12 +236,3 @@ class Config(object):
         print("\n")
 
 
-class CocoConfig(Config):
-    def __init__(self):
-        super()
-        self.NAME = "COCO_POSE_ESTIMATION_GCP"
-        self.GPU_COUNT = 2
-        self.NUM_CLASSES = 999999
-
-
-
